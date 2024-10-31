@@ -1,0 +1,310 @@
+<html><head><base href="." />
+<meta charset="UTF-8">
+<title>Portfolio Digital</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<style>
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: white;
+    position: relative;
+    background: #000; /* Changed to black background */
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/a/8bd03f8b-1c12-4a37-b0ab-8a3a88d3fdae') center/cover no-repeat;
+    filter: brightness(0.15); /* Darkened the overlay */
+    z-index: -1;
+}
+
+.container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0,0,0,0.8); /* Darkened the container background */
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    width: 90%;
+    max-width: 800px;
+    padding: clamp(20px, 5vw, 40px);
+    background: rgba(255,255,255,0.1);
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    animation: float 3s ease-in-out infinite;
+    position: relative;
+}
+
+.content::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, #00f5a0, #00d9f5, #f500a0, #00f5a0);
+    border-radius: 32px;
+    z-index: -1;
+    background-size: 300% 300%;
+    animation: glowingBorder 3s linear infinite;
+}
+
+@keyframes glowingBorder {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.name {
+    font-size: clamp(2em, 6vw, 3.5em);
+    margin-bottom: clamp(15px, 4vw, 30px);
+    font-weight: 800;
+    background: linear-gradient(45deg, #00f5a0, #00d9f5, #f500a0);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: clamp(1px, 1vw, 3px);
+    word-wrap: break-word;
+}
+
+.contact-info p {
+    font-size: clamp(1em, 3vw, 1.2em);
+    margin: clamp(10px, 2vw, 15px) 0;
+    padding: clamp(10px, 3vw, 15px) clamp(15px, 4vw, 25px);
+}
+
+.social-icons {
+    display: flex;
+    justify-content: center;
+    gap: clamp(15px, 4vw, 30px);
+    margin-top: clamp(20px, 5vw, 40px);
+    flex-wrap: wrap;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(40px, 12vw, 60px);
+    height: clamp(40px, 12vw, 60px);
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px);
+    background: rgba(255,255,255,0.2);
+    border-color: rgba(255,255,255,0.4);
+}
+
+.social-icons svg {
+    width: clamp(20px, 6vw, 30px);
+    height: clamp(20px, 6vw, 30px);
+    fill: white;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover svg {
+    fill: #00f5a0;
+}
+
+.email-modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255,255,255,0.95);
+    padding: clamp(15px, 4vw, 30px);
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    z-index: 1000;
+    width: 95%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.email-modal.active {
+    display: block;
+    animation: modalFadeIn 0.3s ease;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 999;
+}
+
+.modal-overlay.active {
+    display: block;
+}
+
+.email-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.email-form input,
+.email-form textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: clamp(8px, 2vw, 12px);
+    border: 2px solid #00f5a0;
+    border-radius: 8px;
+    font-size: clamp(14px, 3vw, 16px);
+}
+
+.email-form button {
+    background: linear-gradient(45deg, #00f5a0, #00d9f5);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: transform 0.2s ease;
+}
+
+.email-form button:hover {
+    transform: scale(1.05);
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+</style>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <h1 class="name">AMAGNO Ethangeek</h1>
+            <div class="contact-info">
+                <p id="phone">📱 +228 93 73 62 53</p>
+                <p id="email">✉️ amagnoemenyo3@gmail.com</p>
+            </div>
+            <div class="social-icons">
+                <a href="https://t.me/ethangeek" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.95 8.12l-1.85 8.73c-.14.63-.51.79-1.03.49l-2.85-2.1-1.38 1.33c-.15.15-.28.28-.57.28l.2-2.89 5.27-4.76c.23-.21-.05-.32-.35-.12l-6.51 4.11-2.8-.88c-.61-.19-.62-.61.13-.9l10.97-4.23c.51-.19.96.12.77.94z"/>
+                    </svg>
+                </a>
+                <a href="https://www.tiktok.com/@ethan_geek.offii" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <div class="email-modal" id="emailModal">
+        <button class="close-modal" type="button" onclick="closeModal()" aria-label="Close modal">&times;</button>
+        <form class="email-form" id="emailForm">
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="text" name="subject" placeholder="Subject" required>
+            <textarea name="message" rows="5" placeholder="Your Message" required></textarea>
+            <button type="submit">Send Email</button>
+        </form>
+    </div>
+
+<script>
+const emailModal = document.getElementById('emailModal');
+const modalOverlay = document.getElementById('modalOverlay');
+const emailForm = document.getElementById('emailForm');
+const emailText = document.getElementById('email');
+
+emailText.addEventListener('click', (e) => {
+    e.preventDefault();
+});
+
+function closeModal() {
+    emailModal.classList.remove('active');
+    modalOverlay.classList.remove('active');
+}
+
+modalOverlay.addEventListener('click', closeModal);
+
+emailForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const formData = new FormData(emailForm);
+    const subject = encodeURIComponent(formData.get('subject'));
+    const body = encodeURIComponent(
+        `Name: ${formData.get('name')}\n` +
+        `Email: ${formData.get('email')}\n\n` +
+        `Message:\n${formData.get('message')}`
+    );
+    
+    window.location.href = `mailto:amagnoemenyo3@gmail.com?subject=${subject}&body=${body}`;
+    closeModal();
+    emailForm.reset();
+});
+
+document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+        event.preventDefault();
+    }
+}, { passive: false });
+
+document.addEventListener('gesturestart', function(event) {
+    event.preventDefault();
+}, { passive: false });
+</script>
+</body></html>
